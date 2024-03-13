@@ -1,0 +1,10 @@
+body {
+    position: relative;
+}
+
+.lucky {
+    position: absolute;
+    width: 200px;
+    height: 80px;
+    background-color: red;
+}
