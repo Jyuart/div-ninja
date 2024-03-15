@@ -27,7 +27,8 @@ func (clientManager *ClientManager) GetClient(clientId string) *websocket.Conn {
 }
 
 // Global variables
-var upgrader = websocket.Upgrader{}
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool { return true }}
 var clientManager ClientManager = ClientManager{}
 
 func main() {
@@ -69,7 +70,14 @@ func registerClient(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleDesktopClient(conn *websocket.Conn) {
-	// noting for now
+	for {
+		_, messageBytes, err := conn.ReadMessage()
+		if err != nil {
+			handleError(err)
+		}
+		message := string(messageBytes)
+		println(message)
+	}
 }
 
 func handleMobileClient(conn *websocket.Conn, desktopConn *websocket.Conn) {
@@ -79,7 +87,7 @@ func handleMobileClient(conn *websocket.Conn, desktopConn *websocket.Conn) {
 		if err != nil {
 			handleError(err)
 		}
-		message := string(messageBytes)
+		desktopConn.WriteMessage(mt, messageBytes)
 	}
 }
 
