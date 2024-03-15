@@ -9,7 +9,11 @@ if (isMobile()) {
     serverUrl = `${serverUrl}/1`;
     socket = new WebSocket(serverUrl);
     socket.addEventListener("message", (event) => {
-        handleLuckyMovement(event);
+        const { a, b }: { a: number, b: number } = JSON.parse(event.data);
+        const alpha = a.toString();
+        const beta = b.toString();
+        displayCoordinates(alpha, beta);
+        handleLuckyMovement(a, b);
     });
 }
 
@@ -19,23 +23,35 @@ function handleOrientation(event: DeviceOrientationEvent) {
 
 }
 
-function handleLuckyMovement(event: MessageEvent<any>) {
+function handleLuckyMovement(a: number, b: number) {
+    const lucky = document.querySelector(".lucky") as HTMLDivElement;
+
+    const l = mapBetweenRanges(a || 0, 140, 40, 0, 90);
+    const t = mapBetweenRanges(b || 0, 45, -40, 0, 90);
+
+    const left = `${l}vw`;
+    const top = `${t}vh`;
+
+    lucky.style.left = left;
+    lucky.style.top = top;
+
+    addTrace(left, top);
+}
+
+function displayCoordinates(a: string, b: string) {
     const alpha = document.querySelector(".alpha") as HTMLParagraphElement;
     const beta = document.querySelector(".beta") as HTMLParagraphElement;
 
-    const alphaBeta = JSON.parse(event.data);
-    const { a, b } = alphaBeta;
-
     alpha.innerText = `Alpha: ${a}`;
     beta.innerText = `Beta: ${b}`;
+}
 
-    const lucky = document.querySelector(".lucky") as HTMLDivElement;
-
-    const left = mapBetweenRanges(a || 0, 150, 30, 0, 90);
-    const top = mapBetweenRanges(b || 0, 50, -50, 0, 90);
-
-    lucky.style.left = `${left}vw`;
-    lucky.style.top = `${top}vh`;
+function addTrace(left: string, top: string) {
+    const tracePoint = document.createElement("div");
+    tracePoint.className = "trace-point";
+    tracePoint.style.left = left;
+    tracePoint.style.top = top;
+    document.body.appendChild(tracePoint);
 }
 
 function mapBetweenRanges(value: number, inMin: number, inMax: number, outMin: number, outMax: number) {
