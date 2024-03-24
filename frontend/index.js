@@ -1,6 +1,6 @@
 "use strict";
 let socket;
-let serverUrl = "wss://7b3b-143-58-135-51.ngrok-free.app/ws";
+let serverUrl = "wss://6f7b-143-58-135-51.ngrok-free.app/ws";
 if (isMobile()) {
     serverUrl = `${serverUrl}/2?desktopClientId=1`;
     socket = new WebSocket(serverUrl);

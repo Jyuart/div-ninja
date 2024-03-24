@@ -58,7 +58,7 @@ func registerClient(w http.ResponseWriter, r *http.Request) {
 	desktopClientId := r.URL.Query().Get("desktopClientId")
 
 	if desktopClientId == "" {
-		handleDesktopClient(conn)
+		// nothing to do for now
 	}
 
 	desktopClient := clientManager.GetClient(desktopClientId)
@@ -67,17 +67,6 @@ func registerClient(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	handleMobileClient(conn, desktopClient)
-}
-
-func handleDesktopClient(conn *websocket.Conn) {
-	for {
-		_, messageBytes, err := conn.ReadMessage()
-		if err != nil {
-			handleError(err)
-		}
-		message := string(messageBytes)
-		println(message)
-	}
 }
 
 func handleMobileClient(conn *websocket.Conn, desktopConn *websocket.Conn) {
