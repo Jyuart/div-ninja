@@ -111,5 +111,5 @@ if (!isMobile()) {
 
 // exported stuff
 export function changeCursorPosition(x: number, y: number) {
-    cursor.position = { x, y };
+    Body.setPosition(cursor, { x, y });
 }

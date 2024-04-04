@@ -17,7 +17,6 @@ function main() {
     });
 }
 
-
 function handleCursorPosition(x: number, y: number) {
     x = mapBetweenRanges(x || 0, 140, 40, 0, window.outerWidth);
     y = mapBetweenRanges(y || 0, 45, -40, 0, window.outerHeight);
@@ -32,16 +31,13 @@ function displayCoordinates(a: string, b: string) {
     beta.innerText = `Beta: ${b}`;
 }
 
-
 function mapBetweenRanges(value: number, inMin: number, inMax: number, outMin: number, outMax: number) {
     return (value - inMin) / (inMax - inMin) * (outMax - outMin) + outMin;
 }
 
-const connectButton = document.querySelector<HTMLElement>('.connect');
-console.log(connectButton);
-connectButton?.addEventListener('click', function() {
+const receiveButton = document.querySelector<HTMLElement>('.receive');
+receiveButton?.addEventListener('click', function() {
     if (!isMobile()) {
         main();
-        connectButton.style.backgroundColor = 'green';
     }
 });
