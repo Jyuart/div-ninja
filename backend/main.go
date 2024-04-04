@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -15,6 +16,7 @@ type ClientManager struct {
 }
 
 func (clientManager *ClientManager) AddClient(clientId string, conn *websocket.Conn) {
+	fmt.Printf("A new client with id %v connected", clientId)
 	clientManager.clients.Store(clientId, conn)
 }
 
@@ -59,6 +61,8 @@ func registerClient(w http.ResponseWriter, r *http.Request) {
 
 	if desktopClientId == "" {
 		// nothing to do for now
+		for {
+		}
 	}
 
 	desktopClient := clientManager.GetClient(desktopClientId)
@@ -76,7 +80,10 @@ func handleMobileClient(conn *websocket.Conn, desktopConn *websocket.Conn) {
 		if err != nil {
 			handleError(err)
 		}
-		desktopConn.WriteMessage(mt, messageBytes)
+		err = desktopConn.WriteMessage(mt, messageBytes)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 

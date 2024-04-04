@@ -141,17 +141,18 @@ body {
 	height: 100vh
 }
 
-.lucky {
+.alpha,
+.beta {
 	position: absolute;
-	width: 20px;
-	aspect-ratio: 1;
-	border-radius: 50%;
-	border: 1px solid black;
+	color: white;
 }
 
-.trace-point {
+.beta {
+	top: 20px;
+}
+
+.connect {
+	width: 100px;
+	font-size: 18px;
 	position: absolute;
-	width: 1px;
-	aspect-ratio: 1;
-	background-color: black;
 }
